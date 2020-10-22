@@ -1,5 +1,5 @@
 sudoku
-=================================
+======
 
 |build-status| |code coverage| |codacy| |MIT license|
 
@@ -8,15 +8,15 @@ sudoku
     :scale: 100%
     :target: https://travis-ci.com/pladdy/sudoku
 
-.. |code coverage| image:: https://codecov.io/gh/pladdy/sudoku/branch/master/graph/badge.svg
+.. |code coverage| image:: https://codecov.io/gh/pladdy/sudoku/branch/main/graph/badge.svg?token=XS4N8JUI4C
   :alt: code coverage
   :scale: 100%
   :target: https://codecov.io/gh/pladdy/sudoku
 
-.. |codacy| image:: https://app.codacy.com/project/badge/Grade/<fix me with codacy link>´
+.. |codacy| image:: https://app.codacy.com/project/badge/Grade/bf6f7fafa8a64d36a6319e7206cb08c9
   :alt: codacy
   :scale: 100%
-  :target: https://www.codacy.com/manual/pladdy/sudoku?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pladdy/sudoku&amp;utm_campaign=Badge_Grade
+  :target: https://www.codacy.com/gh/pladdy/sudoku/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pladdy/sudoku&amp;utm_campaign=Badge_Grade
 
 .. |MIT license| image:: https://img.shields.io/badge/License-MIT-blue.svg
   :alt: MIT license
