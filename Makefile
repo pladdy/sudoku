@@ -60,6 +60,9 @@ requirements-dev.txt:
 run-debug:
 	DEBUG=1 FLASK_ENV=development poetry run python $(APP)/app.py
 
+solve:
+	poetry run python solve.py
+
 test:
 	$(TEST)
 

@@ -59,6 +59,7 @@ References
 ----------
 
 - `Sudoku <https://en.wikipedia.org/wiki/Sudoku>`_
+- `Sudoku Puzzle <https://websudoku.com/>`_
 
 README
 ~~~~~~
