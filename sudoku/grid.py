@@ -13,12 +13,54 @@ SUBGRIDS_BY_ROWS = [
     [6, 6, 6, 7, 7, 7, 8, 8, 8],
 ]
 
+
+def _filter_zeros(xs):
+    """Return a list of numbers with 0s removed from the list."""
+    return list(filter(lambda x: x != 0, xs))
+
+
+def _subgrid(r, c):
+    """Given a row/col coordinate, identify which subgrid it's in."""
+    return SUBGRIDS_BY_ROWS[r][c]
+
+
+def validate_row(numbers):
+    """
+    Given a row of numbers, verify it could be a sudoku row.
+
+    Arguments:
+        - list of integers
+
+    Returns: n/a
+
+    Notes:
+        - A valid list
+            - must be 9 numbers.
+            - each number must be between 0-9.
+            - 0's can be repeated in the list.
+            - numbers 1-9 must be unique
+        - If a row is invalid, an exception is thrown.
+    """
+    if type(numbers).__name__ != "list":
+        raise TypeError("Invalid argument, must be a list")
+    if len(numbers) != MAX_ARRAY_COUNT:
+        raise ValueError("Invalid array: too many numbers")
+
+    no_zeros = _filter_zeros(numbers)
+    if len(set(no_zeros)) != len(no_zeros):
+        raise ValueError("Invalid row: row has duplicate numbers")
+    if sum(numbers) > MAX_ARRAY_SUM:
+        raise ValueError("Invalid row: row total is too high")
+
+
 # TODO: What if each "cell" was an object, that contained it's row, column,
 #       subgrid?
 
 
 class Grid:
-    """Provide instances of sudoku board/grids.
+
+    """
+    Provide instances of sudoku board/grids.
 
     The values in the board are stored in 3 attributes of the object.  The
     trade off, in theory, is by keeping the rows, columns, and subgrids
@@ -39,7 +81,8 @@ class Grid:
             self.subgrids[i] = []
 
     def add_row(self, numbers):
-        """Add a row to the grid.
+        """
+        Add a row to the grid.
 
         Arguments:
             - list of positive integers, 1-9
@@ -58,14 +101,14 @@ class Grid:
             - The grid is not checked to see if a row will make a board that's
               impossible to solve.
         """
-        self.validate_row(numbers)
+        validate_row(numbers)
         if len(self.rows) >= MAX_ROWS:
             raise RuntimeError("Grid is full: no more rows can be added")
 
         row_number = len(self.rows)
         for col, val in enumerate(numbers):
             self.columns[col].append(val)
-            self.subgrids[self._subgrid(row_number, col)].append(val)
+            self.subgrids[_subgrid(row_number, col)].append(val)
 
         self.rows.append(numbers)
 
@@ -76,7 +119,8 @@ class Grid:
             print(row)
 
     def solve(self):
-        """Solve the sudoku puzzle.
+        """
+        Solve the sudoku puzzle.
 
         Arguments: n/a
 
@@ -94,7 +138,7 @@ class Grid:
         while self.solved() is False:
             changes = 0
             for r, row in enumerate(self.rows):
-                for c, val in enumerate(row):
+                for c, _ in enumerate(row):
                     if self.rows[r][c] == 0:
                         result = self._solve_cell(r, c)
                         if result > 0:
@@ -105,7 +149,8 @@ class Grid:
                 raise Exception("Puzzle is unsolvable")
 
     def solved(self):
-        """Check if puzzle is solved.
+        """
+        Check if puzzle is solved.
 
         Arguments: n/a
 
@@ -126,39 +171,9 @@ class Grid:
 
         return True
 
-    def validate_row(self, numbers):
-        """Given a row of numbers, verify it could be a sudoku row.
-
-        Arguments:
-            - list of integers
-
-        Returns: n/a
-
-        Notes:
-            - A valid list
-                - must be 9 numbers.
-                - each number must be between 0-9.
-                - 0's can be repeated in the list.
-                - numbers 1-9 must be unique
-            - If a row is invalid, an exception is thrown.
-        """
-        if type(numbers).__name__ != "list":
-            raise TypeError("Invalid argument, must be a list")
-        if len(numbers) != MAX_ARRAY_COUNT:
-            raise ValueError("Invalid array: too many numbers")
-
-        no_zeros = self._filter_zeros(numbers)
-        if len(set(no_zeros)) != len(no_zeros):
-            raise ValueError("Invalid row: row has duplicate numbers")
-        if sum(numbers) > MAX_ARRAY_SUM:
-            raise ValueError("Invalid row: row total is too high")
-
-    def _filter_zeros(self, xs):
-        """Return a list of numbers with 0s removed from the list"""
-        return list(filter(lambda x: x != 0, xs))
-
     def _solve_cell(self, r, c):
-        """Given a cell (row, column), try to identify it's correct value
+        """
+        Given a cell (row, column), try to identify it's correct value.
 
         Arguments:
             - row, integer
@@ -174,7 +189,7 @@ class Grid:
                 - the column
                 - and the subgrid
         """
-        subgrid = self.subgrids[self._subgrid(r, c)]
+        subgrid = self.subgrids[_subgrid(r, c)]
         row = self.rows[r]
         col = self.columns[c]
         available = set.difference(
@@ -185,14 +200,11 @@ class Grid:
             return available.pop()
         return 0
 
-    def _subgrid(self, r, c):
-        """Given a row/col coordinate, identify which subgrid it's in"""
-        return SUBGRIDS_BY_ROWS[r][c]
-
     # TODO: we store the same data 3 ways...I wonder if there's a way to do this
     #       just once to make updating easier?
     def _update_cell(self, r, c, val):
-        """Given a row/col coordinate and value, update the grid with the value.
+        """
+        Given a row/col coordinate and value, update the grid with the value.
 
         Arguments:
             - row, integer
@@ -207,6 +219,6 @@ class Grid:
         self.rows[r][c] = val
         self.columns[c][r] = val
 
-        subgrid = self.subgrids[self._subgrid(r, c)]
+        subgrid = self.subgrids[_subgrid(r, c)]
         subgrid_index = (r % 3) * 3 + c % 3
         subgrid[subgrid_index] = val

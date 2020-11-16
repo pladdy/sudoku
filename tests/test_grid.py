@@ -100,15 +100,14 @@ class TestGrid:
 
         assert g.solved() is False
 
-    def test_grid_validate_row(self):
-        g = grid.Grid()
 
-        tests = [None, "foo", 1, {"a": 4}, {3, 4, 5}, (3, 4, 5)]
-        for test in tests:
-            with pytest.raises(TypeError):
-                g.validate_row(test)
+def test_validate_row():
+    tests = [None, "foo", 1, {"a": 4}, {3, 4, 5}, (3, 4, 5)]
+    for test in tests:
+        with pytest.raises(TypeError):
+            grid.validate_row(test)
 
-        tests = [[1], [1, 2, 3, 4, 5, 6, 7, 8, 8], [1, 2, 3, 4, 5, 6, 7, 10, 8]]
-        for test in tests:
-            with pytest.raises(ValueError):
-                g.validate_row(test)
+    tests = [[1], [1, 2, 3, 4, 5, 6, 7, 8, 8], [1, 2, 3, 4, 5, 6, 7, 10, 8]]
+    for test in tests:
+        with pytest.raises(ValueError):
+            grid.validate_row(test)
