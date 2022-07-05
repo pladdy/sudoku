@@ -24,6 +24,15 @@ def _subgrid(r, c):
     return SUBGRIDS_BY_ROWS[r][c]
 
 
+def solve(puzzle: list) -> list:
+    """Given a puzzle as a list or rows, return a solved puzzle."""
+    g = Game()
+    for row in puzzle:
+        g.add_row(row)
+    g.solve()
+    return g.rows
+
+
 def validate_row(numbers):
     """
     Given a row of numbers, verify it could be a sudoku row.
@@ -57,10 +66,10 @@ def validate_row(numbers):
 #       subgrid?
 
 
-class Grid:
+class Game:
+    """Create a sudoku game.
 
-    """
-    Provide instances of sudoku board/grids.
+    Once a game is created use 'add_row' to add each row of the puzzle.
 
     The values in the board are stored in 3 attributes of the object.  The
     trade off, in theory, is by keeping the rows, columns, and subgrids
@@ -73,7 +82,6 @@ class Grid:
     """
 
     def __init__(self):
-        self.grid_type = "grid"
         self.rows = []
         self.columns = [[], [], [], [], [], [], [], [], []]
         self.subgrids = {}

@@ -2,23 +2,23 @@ import io
 import pytest
 import sys
 
-import sudoku.grid as grid
+import sudoku.game as game
 
 
-class TestGrid:
-    def test_grid(self):
-        g = grid.Grid()
-        assert g.grid_type == "grid"
+class TestGame:
+    def test_game(self):
+        g = game.Game()
+        assert len(g.rows) == 0
 
     def test_grid_add_row(self):
-        g = grid.Grid()
+        g = game.Game()
         row = [7, 0, 9, 4, 0, 2, 3, 8, 0]
         g.add_row(row)
         g.add_row(row)
         assert g.rows == [row, row]
 
     def test_grid_add_row_exceptions(self):
-        g = grid.Grid()
+        g = game.Game()
 
         tests = [None, "foo", 1, {"a": 4}, {3, 4, 5}, (3, 4, 5)]
         for test in tests:
@@ -40,7 +40,7 @@ class TestGrid:
         _sysout = sys.stdout
         sys.stdout = result = io.StringIO()
 
-        g = grid.Grid()
+        g = game.Game()
         g.add_row([1, 2, 3, 4, 5, 6, 7, 8, 9])
         g.show()
 
@@ -48,7 +48,7 @@ class TestGrid:
         assert result.getvalue() == "[1, 2, 3, 4, 5, 6, 7, 8, 9]\n"
 
     def test_grid_solve(self):
-        g = grid.Grid()
+        g = game.Game()
         g.add_row([0, 5, 4, 9, 6, 0, 0, 3, 8])
         g.add_row([0, 0, 0, 0, 0, 0, 4, 0, 0])
         g.add_row([7, 0, 2, 3, 5, 4, 0, 6, 9])
@@ -72,7 +72,7 @@ class TestGrid:
         assert g.rows[8] == [8, 2, 1, 7, 3, 5, 6, 9, 4]
 
     def test_grid_solve_unsolvable(self):
-        g = grid.Grid()
+        g = game.Game()
         g.add_row([7, 0, 9, 4, 0, 2, 3, 8, 0])
         g.add_row([6, 0, 3, 0, 0, 0, 0, 5, 0])
         g.add_row([0, 8, 0, 0, 0, 5, 0, 0, 0])
@@ -87,7 +87,7 @@ class TestGrid:
             g.solve()
 
     def test_grid_solved(self):
-        g = grid.Grid()
+        g = game.Game()
         g.add_row([7, 0, 9, 4, 0, 2, 3, 8, 0])
         g.add_row([6, 0, 3, 0, 0, 0, 0, 5, 0])
         g.add_row([0, 8, 0, 0, 0, 5, 0, 0, 0])
@@ -105,9 +105,9 @@ def test_validate_row():
     tests = [None, "foo", 1, {"a": 4}, {3, 4, 5}, (3, 4, 5)]
     for test in tests:
         with pytest.raises(TypeError):
-            grid.validate_row(test)
+            game.validate_row(test)
 
     tests = [[1], [1, 2, 3, 4, 5, 6, 7, 8, 8], [1, 2, 3, 4, 5, 6, 7, 10, 8]]
     for test in tests:
         with pytest.raises(ValueError):
-            grid.validate_row(test)
+            game.validate_row(test)
