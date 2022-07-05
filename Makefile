@@ -38,7 +38,7 @@ install:
 
 lint: pre-commit
 
-POETRY_VERSION = 1.1.3
+POETRY_VERSION = 1.1.8
 poetry:
 	curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/$(POETRY_VERSION)/get-poetry.py | python
 
